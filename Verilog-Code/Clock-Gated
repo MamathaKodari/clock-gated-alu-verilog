@@ -1,0 +1,9 @@
+module clk(
+    input clk,
+    input enable,
+    output gclk
+);
+
+assign gclk = clk & enable;
+
+endmodule
