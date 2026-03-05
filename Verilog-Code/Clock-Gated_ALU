@@ -1,0 +1,38 @@
+`include "alu.v"
+`include  "clk.v"
+
+module alu_clk_gated(
+    input clk,
+    input rst,
+    input enable,
+    input [31:0] A,
+    input [31:0] B,
+    input [2:0] sel,
+    output reg [31:0] Y
+);
+
+wire gclk;
+wire [31:0] alu_out;
+
+clk CG(
+    .clk(clk),
+    .enable(enable),
+    .gclk(gclk)
+);
+
+alu ALU(
+    .A(A),
+    .B(B),
+    .sel(sel),
+    .Y(alu_out)
+);
+
+always @(posedge gclk or posedge rst)
+begin
+    if(rst)
+        Y <= 0;
+    else
+        Y <= alu_out;
+end
+
+endmodule
